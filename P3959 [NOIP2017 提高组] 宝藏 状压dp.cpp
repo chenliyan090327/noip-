@@ -26,8 +26,8 @@ int main(){
 	//printf("n=%d m=%d\n",n,m);
 	//memset(trans,0,sizeof(trans)); 
     for(int i=0;i<(1<<n);i++){		//遍历状态
-	    for(int j=i;j!=0;j=(j-1)&i){//状态j为状态i子状态，
-	       
+	    for(int j=i;j!=0;j=(j-1)&i){//状态j为状态i子状态
+	        
 	        int temp=i^j;//状态i与状态j的不同之处，状态转移为j->i 
 	        for(int g=n-1;g>=0;g--)   {	     
 	        	if((temp>>g)&1){//说明点k是转移中增加的点，即 j没有，i有 	            
@@ -47,8 +47,9 @@ int main(){
 	                trans[j][i]+=tmin; // 状态j到状态i的最小开销  
 					//printf("trans[%d][%d]=%x\n",n,m,trans[j][i]);     
 	            }
-		}	
-			
+			}	
+			 
+	    }
 	} 
 	memset(f,0x3f,sizeof f);
     for(int i=1;i<=n;i++)  // 从一层为免费 
@@ -57,7 +58,7 @@ int main(){
     for(int k=2;k<=n;k++){  // 由底至上DP，从2层开计算 
     	for(int i=0;i<(1<<n);i++){	//遍历状态
 	    	for(int j=i;j!=0;j=(j-1)&i){ //状态j为状态i子状态，
-	    		if(trans[j][i]!=INF){  //使用计算计算结果 
+	    		if(trans[j][i]!=INF){  //存在j到i的变化
 	    			f[k][i]=min(f[k][i],f[k-1][j]+(k-1)*trans[j][i]);
 	    		}
 	    	}
